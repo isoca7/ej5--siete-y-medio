@@ -1,12 +1,11 @@
 import confetti from 'canvas-confetti'
-let puntuacion : number = 0
-let carta_dada: number
+let puntuacion = 0
+let carta_dada
 let mensajeResultado = document.getElementById('resultado')
 const botonDarCarta = document.getElementById('dame_carta')
 const botonParar = document.getElementById('parar')
 const containerBotones = document.getElementById('dar_reiniciar')
 const siguienteCarta = document.getElementById('siguiente_carta')
-
 
 const muestraPuntuacion = () => {
   const elementoPuntuacion = document.getElementById('puntuacion')
@@ -32,18 +31,16 @@ const sumarPuntuacion = () => {
     puntuacion += carta_dada
   }
   if (puntuacion === 7.5) {
-    if (mensajeResultado && botonDarCarta && containerBotones) {
-      mensajeResultado.innerHTML = '¡ Lo has clavado! ¡Enhorabuena!'
-      mensajeResultado.setAttribute('class', 'rainbow')
-      confetti()
-      botonDarCarta.remove()
-      containerBotones.innerHTML = `<button type="button" id="reiniciar">Nueva partida 🎇</button>`
-    }
+    mensajeResultado.innerHTML = '¡ Lo has clavado! ¡Enhorabuena!'
+    mensajeResultado.setAttribute('class', 'rainbow')
+    confetti()
+    botonDarCarta.remove()
+    containerBotones.innerHTML = `<button type="button" id="reiniciar">Nueva partida 🎇</button>`
   }
 }
 const muestraCarta = () => {
-  const imgCarta = document.getElementById('carta') as HTMLImageElement
-  if(imgCarta){switch (carta_dada) {
+  const imgCarta = document.getElementById('carta')
+  switch (carta_dada) {
     case 1:
       imgCarta.src =
         'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/1_as-copas.jpg'
@@ -84,16 +81,13 @@ const muestraCarta = () => {
       imgCarta.src =
         'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/12_rey-copas.jpg'
       break
-  }}
-  
+  }
 }
 
 const reiniciarJuego = () => {
   location.reload()
 }
 const gestionarPartida = () => {
-  
-  if(mensajeResultado && siguienteCarta && botonDarCarta && containerBotones){
   if (puntuacion <= 4.5) {
     mensajeResultado.innerHTML = `<p>Has sido muy conservador</p>`
     siguienteCarta.innerHTML = `<p>Hubieses sacado un ${carta_dada}</p>`
@@ -108,28 +102,28 @@ const gestionarPartida = () => {
     mensajeResultado.setAttribute('class', 'rainbow')
     confetti()
   }
-  const botonReiniciar = document.getElementById('reiniciar')
+
   botonDarCarta.remove()
   containerBotones.innerHTML = `<button type="button" id="reiniciar">Nueva partida 🎇</button>`
-  botonReiniciar?.addEventListener('click', reiniciarJuego)}
+  const botonReiniciar = document.getElementById('reiniciar')
+  botonReiniciar.addEventListener('click', reiniciarJuego)
 }
 
 const gameOver = () => {
-  if(mensajeResultado && botonDarCarta && containerBotones)
   if (puntuacion > 7.5) {
     mensajeResultado.innerHTML = `<p style='color:black; font-size: 3em; text-shadow: 0 0 20px #fff, 0 0 30px #fff, 0 0 50px #fff, 0 0 60px #fff, 0 0 70px #fff'>Game over!</p>`
     botonDarCarta.remove()
     containerBotones.innerHTML = `<button type="button" id="reiniciar">Nueva partida 🎇</button>`
   }
   const botonReiniciar = document.getElementById('reiniciar')
-  botonReiniciar?.addEventListener('click', reiniciarJuego)
+  botonReiniciar.addEventListener('click', reiniciarJuego)
 }
 
-botonDarCarta?.addEventListener('click', dameCarta)
-botonDarCarta?.addEventListener('click', sumarPuntuacion)
-botonDarCarta?.addEventListener('click', muestraPuntuacion)
-botonDarCarta?.addEventListener('click', muestraCarta)
-botonDarCarta?.addEventListener('click', gameOver)
-botonParar?.addEventListener('click', dameCarta)
-botonParar?.addEventListener('click', gestionarPartida)
-botonParar?.addEventListener('click', gameOver)
+botonDarCarta.addEventListener('click', dameCarta)
+botonDarCarta.addEventListener('click', sumarPuntuacion)
+botonDarCarta.addEventListener('click', muestraPuntuacion)
+botonDarCarta.addEventListener('click', muestraCarta)
+botonDarCarta.addEventListener('click', gameOver)
+botonParar.addEventListener('click', dameCarta)
+botonParar.addEventListener('click', gestionarPartida)
+botonParar.addEventListener('click', gameOver)
