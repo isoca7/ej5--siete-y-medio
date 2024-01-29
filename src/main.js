@@ -7,6 +7,7 @@ const botonParar = document.getElementById('parar')
 const containerBotones = document.getElementById('dar_reiniciar')
 const siguienteCarta = document.getElementById('siguiente_carta')
 
+
 const muestraPuntuacion = () => {
   const elementoPuntuacion = document.getElementById('puntuacion')
 
@@ -17,11 +18,20 @@ const muestraPuntuacion = () => {
 
 document.addEventListener('DOMContentLoaded', muestraPuntuacion)
 
-const dameCarta = () => {
-  carta_dada = Math.floor(Math.random() * 10 + 1)
-  if (carta_dada > 7) {
-    carta_dada += 2
+const generarNumeroAleatorio = () => {
+  return Math.floor(Math.random() * 10 + 1)
+}
+
+const quitarOchoyNueve = (numeroAleatorio) => {
+  if (numeroAleatorio > 7) {
+    numeroAleatorio += 2
   }
+  return numeroAleatorio
+}
+
+const dameCarta = () => {
+  const numeroAleatorio = generarNumeroAleatorio()
+  carta_dada = quitarOchoyNueve(numeroAleatorio)
 }
 
 const sumarPuntuacion = () => {
@@ -30,16 +40,12 @@ const sumarPuntuacion = () => {
   } else {
     puntuacion += carta_dada
   }
-  if (puntuacion === 7.5) {
-    mensajeResultado.innerHTML = '¡ Lo has clavado! ¡Enhorabuena!'
-    mensajeResultado.setAttribute('class', 'rainbow')
-    confetti()
-    botonDarCarta.remove()
-    containerBotones.innerHTML = `<button type="button" id="reiniciar">Nueva partida 🎇</button>`
-  }
 }
-const muestraCarta = () => {
-  const imgCarta = document.getElementById('carta')
+
+function cogerImagenCarta() {
+  return document.getElementById('carta')
+}
+function asignarImagenCartaNumeroCorrespondiente(imgCarta) {
   switch (carta_dada) {
     case 1:
       imgCarta.src =
@@ -84,6 +90,11 @@ const muestraCarta = () => {
   }
 }
 
+const muestraCarta = () => {
+  const imgCarta = cogerImagenCarta()
+  asignarImagenCartaNumeroCorrespondiente(imgCarta)
+}
+
 const reiniciarJuego = () => {
   location.reload()
 }
@@ -114,6 +125,12 @@ const gameOver = () => {
     mensajeResultado.innerHTML = `<p style='color:black; font-size: 3em; text-shadow: 0 0 20px #fff, 0 0 30px #fff, 0 0 50px #fff, 0 0 60px #fff, 0 0 70px #fff'>Game over!</p>`
     botonDarCarta.remove()
     containerBotones.innerHTML = `<button type="button" id="reiniciar">Nueva partida 🎇</button>`
+  } else if (puntuacion === 7.5) {
+    mensajeResultado.innerHTML = '¡ Lo has clavado! ¡Enhorabuena!'
+    mensajeResultado.setAttribute('class', 'rainbow')
+    confetti()
+    botonDarCarta.remove()
+    containerBotones.innerHTML = `<button type="button" id="reiniciar">Nueva partida 🎇</button>`
   }
   const botonReiniciar = document.getElementById('reiniciar')
   botonReiniciar.addEventListener('click', reiniciarJuego)
@@ -124,6 +141,5 @@ botonDarCarta.addEventListener('click', sumarPuntuacion)
 botonDarCarta.addEventListener('click', muestraPuntuacion)
 botonDarCarta.addEventListener('click', muestraCarta)
 botonDarCarta.addEventListener('click', gameOver)
-botonParar.addEventListener('click', dameCarta)
 botonParar.addEventListener('click', gestionarPartida)
 botonParar.addEventListener('click', gameOver)
