@@ -31,7 +31,7 @@ const quitarOchoyNueve = (numeroAleatorio) => {
 
 const dameCarta = () => {
   const numeroAleatorio = generarNumeroAleatorio()
-  carta_dada = quitarOchoyNueve(numeroAleatorio)
+ return carta_dada = quitarOchoyNueve(numeroAleatorio)
 }
 
 const sumarPuntuacion = () => {
@@ -101,13 +101,13 @@ const reiniciarJuego = () => {
 const gestionarPartida = () => {
   if (puntuacion <= 4.5) {
     mensajeResultado.innerHTML = `<p>Has sido muy conservador</p>`
-    siguienteCarta.innerHTML = `<p>Hubieses sacado un ${carta_dada}</p>`
+    siguienteCarta.innerHTML = `<p>Hubieses sacado un ${dameCarta()}</p>`
   } else if (puntuacion >= 5 && puntuacion < 6) {
     mensajeResultado.innerHTML = `<p>Te ha entrado el canguelo eh?</p>`
-    siguienteCarta.innerHTML = `<p>Hubieses sacado un ${carta_dada}</p>`
+    siguienteCarta.innerHTML = `<p>Hubieses sacado un ${dameCarta()}</p>`
   } else if (puntuacion >= 6 && puntuacion <= 7) {
     mensajeResultado.innerHTML = `<p>Casi casi..</p>`
-    siguienteCarta.innerHTML = `<p>Hubieses sacado un ${carta_dada}</p>`
+    siguienteCarta.innerHTML = `<p>Hubieses sacado un ${dameCarta()}</p>`
   } else if (puntuacion === 7.5) {
     mensajeResultado.innerHTML = '¡ Lo has clavado! ¡Enhorabuena!'
     mensajeResultado.setAttribute('class', 'rainbow')
