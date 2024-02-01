@@ -1,152 +1,158 @@
-import confetti from 'canvas-confetti'
-let puntuacion = 0
-let carta_dada
-let mensajeResultado = document.getElementById('resultado')
-const botonDarCarta = document.getElementById('dame_carta')
-const botonParar = document.getElementById('parar')
-const containerBotones = document.getElementById('dar_reiniciar')
-const siguienteCarta = document.getElementById('siguiente_carta')
-
+import confetti from "canvas-confetti";
+let puntuacion = 0;
+const botonDarCarta = document.getElementById("dame_carta");
+const botonParar = document.getElementById("parar");
+const containerBotones = document.getElementById("dar_reiniciar");
+const mensajeResultado = document.getElementById("resultado");
+const siguienteCarta = document.getElementById("siguiente_carta");
 
 const muestraPuntuacion = () => {
-  const elementoPuntuacion = document.getElementById('puntuacion')
+  const elementoPuntuacion = document.getElementById("puntuacion");
 
   if (elementoPuntuacion) {
-    elementoPuntuacion.innerHTML = `<h3>Tu puntuación es: <span>${puntuacion}</span></h3>`
+    elementoPuntuacion.innerHTML = `<h3>Tu puntuación es: <span>${puntuacion}</span></h3>`;
   }
-}
+};
 
-document.addEventListener('DOMContentLoaded', muestraPuntuacion)
+document.addEventListener("DOMContentLoaded", muestraPuntuacion);
 
 const generarNumeroAleatorio = () => {
-  return Math.floor(Math.random() * 10 + 1)
-}
+  return Math.floor(Math.random() * 10 + 1);
+};
 
-const quitarOchoyNueve = (numeroAleatorio) => {
+const obtenerValorCarta = (numeroAleatorio) => {
   if (numeroAleatorio > 7) {
-    numeroAleatorio += 2
+    numeroAleatorio += 2;
   }
-  return numeroAleatorio
-}
+  return numeroAleatorio;
+};
 
-const dameCarta = () => {
-  const numeroAleatorio = generarNumeroAleatorio()
- return carta_dada = quitarOchoyNueve(numeroAleatorio)
-}
+const obtenerPuntosCarta = (carta) => {
+  return carta > 7 ? 0.5 : carta;
+};
 
-const sumarPuntuacion = () => {
-  if (carta_dada > 7) {
-    puntuacion += 0.5
-  } else {
-    puntuacion += carta_dada
-  }
-}
+const sumaPuntos = (puntos) => {
+  return puntuacion + puntos;
+};
 
-function cogerImagenCarta() {
-  return document.getElementById('carta')
-}
-function asignarImagenCartaNumeroCorrespondiente(imgCarta) {
-  switch (carta_dada) {
+const setPuntuacion = (puntosSumados) => {
+  puntuacion = puntosSumados;
+};
+
+const obtenerUrlCarta = (carta) => {
+  switch (carta) {
     case 1:
-      imgCarta.src =
-        'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/1_as-copas.jpg'
-      break
+      return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/1_as-copas.jpg";
     case 2:
-      imgCarta.src =
-        'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/2_dos-copas.jpg'
-      break
+      return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/2_dos-copas.jpg";
     case 3:
-      imgCarta.src =
-        'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/3_tres-copas.jpg'
-      break
+      return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/3_tres-copas.jpg";
     case 4:
-      imgCarta.src =
-        'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/4_cuatro-copas.jpg'
-      break
+      return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/4_cuatro-copas.jpg";
     case 5:
-      imgCarta.src =
-        'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/5_cinco-copas.jpg'
-      break
+      return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/5_cinco-copas.jpg";
     case 6:
-      imgCarta.src =
-        'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/6_seis-copas.jpg'
-      break
+      return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/6_seis-copas.jpg";
     case 7:
-      imgCarta.src =
-        'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/7_siete-copas.jpg'
-      break
+      return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/7_siete-copas.jpg";
     case 10:
-      imgCarta.src =
-        'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/10_sota-copas.jpg'
-      break
+      return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/10_sota-copas.jpg";
     case 11:
-      imgCarta.src =
-        'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/11_caballo-copas.jpg'
-      break
+      return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/11_caballo-copas.jpg";
     case 12:
-      imgCarta.src =
-        'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/12_rey-copas.jpg'
-      break
+      return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/12_rey-copas.jpg";
   }
+};
+
+const pintarUrlCarta = (urlCarta) => {
+  const elementoImg = document.getElementById("carta");
+
+  if (elementoImg !== null && elementoImg !== undefined) {
+    elementoImg.src = urlCarta;
+  }
+};
+
+const obtenerMensajeResultado = (puntuacion) => {
+  if (puntuacion <= 4.5) {
+    return  `<p>Has sido muy conservador</p>`;
+  } else if (puntuacion >= 5 && puntuacion < 6) {
+    return `<p>Te ha entrado el canguelo eh?</p>`;
+   
+  } else if (puntuacion >= 6 && puntuacion <= 7) {
+    return `<p>Casi casi..</p>`;
+    
+  } else if (puntuacion === 7.5) {
+    ganarPartida();
+  }
+};
+
+const mostrarQueHubiesesSacado =()=>{
+  siguienteCarta.innerHTML = `<p>Hubieses sacado un ${obtenerValorCarta(generarNumeroAleatorio())}</p>`;
 }
 
-const muestraCarta = () => {
-  const imgCarta = cogerImagenCarta()
-  asignarImagenCartaNumeroCorrespondiente(imgCarta)
+const mostrarMensajeResultado = (textoMensaje)=>{
+  const mensajeResultado = document.getElementById("resultado");
+  mensajeResultado.innerHTML = textoMensaje
+
 }
 
-const reiniciarJuego = () => {
+const ganarPartida = () => {
+  if (puntuacion === 7.5) {
+    mensajeResultado.innerHTML = "¡ Lo has clavado! ¡Enhorabuena!";
+    mensajeResultado.setAttribute("class", "rainbow");
+    reiniciarJuego()
+    confetti();
+  }
+};
+
+const perderPartida = () => {
+    mensajeResultado.innerHTML = `<p style='color:black; font-size: 3em; text-shadow: 0 0 20px #fff, 0 0 30px #fff, 0 0 50px #fff, 0 0 60px #fff, 0 0 70px #fff'>Game over!</p>`;
+    reiniciarJuego()
+  
+};
+
+const gestionarPartidas = () => {
+  if (puntuacion === 7.5) {
+    ganarPartida();
+  }
+
+  if (puntuacion > 7.5) {
+    perderPartida();
+  }
+};
+const quitarBotones = () => {
+  botonDarCarta.remove();
+};
+const reloadpagina = ()=>{
   location.reload()
 }
-const gestionarPartida = () => {
-  if (puntuacion <= 4.5) {
-    mensajeResultado.innerHTML = `<p>Has sido muy conservador</p>`
-    siguienteCarta.innerHTML = `<p>Hubieses sacado un ${dameCarta()}</p>`
-  } else if (puntuacion >= 5 && puntuacion < 6) {
-    mensajeResultado.innerHTML = `<p>Te ha entrado el canguelo eh?</p>`
-    siguienteCarta.innerHTML = `<p>Hubieses sacado un ${dameCarta()}</p>`
-  } else if (puntuacion >= 6 && puntuacion <= 7) {
-    mensajeResultado.innerHTML = `<p>Casi casi..</p>`
-    siguienteCarta.innerHTML = `<p>Hubieses sacado un ${dameCarta()}</p>`
-  } else if (puntuacion === 7.5) {
-    mensajeResultado.innerHTML = '¡ Lo has clavado! ¡Enhorabuena!'
-    mensajeResultado.setAttribute('class', 'rainbow')
-    confetti()
-  }
-
-  botonDarCarta.remove()
-  containerBotones.innerHTML = `<button type="button" id="reiniciar">Nueva partida 🎇</button>`
-  const botonReiniciar = document.getElementById('reiniciar')
-  botonReiniciar.addEventListener('click', reiniciarJuego)
-}
-
-const gameOver = () => {
-  if (puntuacion > 7.5) {
-    mensajeResultado.innerHTML = `<p style='color:black; font-size: 3em; text-shadow: 0 0 20px #fff, 0 0 30px #fff, 0 0 50px #fff, 0 0 60px #fff, 0 0 70px #fff'>Game over!</p>`
-    botonDarCarta.remove()
-    containerBotones.innerHTML = `<button type="button" id="reiniciar">Nueva partida 🎇</button>`
-  } else if (puntuacion === 7.5) {
-    mensajeResultado.innerHTML = '¡ Lo has clavado! ¡Enhorabuena!'
-    mensajeResultado.setAttribute('class', 'rainbow')
-    confetti()
-    botonDarCarta.remove()
-    containerBotones.innerHTML = `<button type="button" id="reiniciar">Nueva partida 🎇</button>`
-  }
-  const botonReiniciar = document.getElementById('reiniciar')
-  botonReiniciar.addEventListener('click', reiniciarJuego)
-}
+const reiniciarJuego = () => {
+  quitarBotones()
+  containerBotones.innerHTML = `<button type="button" id="reiniciar">Nueva partida 🎇</button>`;
+  const botonReiniciar = document.getElementById("reiniciar");
+  botonReiniciar.addEventListener("click", reloadpagina);
+};
 
 const handleBotonDameCarta = () => {
-  dameCarta()
-  sumarPuntuacion()
-  muestraPuntuacion()
-  muestraCarta()
-  gameOver()
-}
-const handleBotonParar = () => {
-  gestionarPartida()
-  gameOver()
-}
+  const numeroAleatorio = generarNumeroAleatorio();
+  const carta = obtenerValorCarta(numeroAleatorio);
+  const puntosCarta = obtenerPuntosCarta(carta);
+  const puntosSumados = sumaPuntos(puntosCarta);
+  const urlCarta = obtenerUrlCarta(carta);
+  pintarUrlCarta(urlCarta);
+  setPuntuacion(puntosSumados);
+  gestionarPartidas();
+  muestraPuntuacion();
+  
+};
 
-botonDarCarta.addEventListener('click', handleBotonDameCarta)
-botonParar.addEventListener('click',handleBotonParar)
+const handleBotonParar = () => {
+  const mensaje = obtenerMensajeResultado(puntuacion)
+  mostrarMensajeResultado(mensaje)
+  mostrarQueHubiesesSacado()
+  reiniciarJuego()
+  
+};
+
+botonDarCarta.addEventListener("click", handleBotonDameCarta);
+botonParar.addEventListener("click", handleBotonParar);
