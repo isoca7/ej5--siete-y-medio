@@ -6,6 +6,7 @@ const containerBotones = document.getElementById("dar_reiniciar");
 const mensajeResultado = document.getElementById("resultado");
 const siguienteCarta = document.getElementById("siguiente_carta");
 
+
 const muestraPuntuacion = () => {
   const elementoPuntuacion = document.getElementById("puntuacion");
 
@@ -82,31 +83,39 @@ const obtenerMensajeResultado = (puntuacion) => {
     return `<p>Casi casi..</p>`;
     
   } else if (puntuacion === 7.5) {
-    ganarPartida();
+    return `<p class='rainbow'>"¡Lo has clavado! ¡Enhorabuena!"</p>`
   }
 };
 
 const mostrarQueHubiesesSacado =()=>{
-  siguienteCarta.innerHTML = `<p>Hubieses sacado un ${obtenerValorCarta(generarNumeroAleatorio())}</p>`;
+  const numeroAleatorio = generarNumeroAleatorio();
+  const carta = obtenerValorCarta(numeroAleatorio);
+  const urlCarta = obtenerUrlCarta(carta);
+  siguienteCarta.innerHTML = `<p>Hubieses sacado un ${carta}</p>`;
+  pintarUrlCarta(urlCarta);
 }
 
 const mostrarMensajeResultado = (textoMensaje)=>{
   const mensajeResultado = document.getElementById("resultado");
-  mensajeResultado.innerHTML = textoMensaje
+  if(mensajeResultado){
+    mensajeResultado.innerHTML = textoMensaje
+  }
+  
 
 }
 
 const ganarPartida = () => {
-  if (puntuacion === 7.5) {
-    mensajeResultado.innerHTML = "¡ Lo has clavado! ¡Enhorabuena!";
-    mensajeResultado.setAttribute("class", "rainbow");
+  const mensaje = obtenerMensajeResultado(puntuacion)
+  mostrarMensajeResultado(mensaje)
     reiniciarJuego()
     confetti();
-  }
+  
 };
 
 const perderPartida = () => {
+  if(mensajeResultado){
     mensajeResultado.innerHTML = `<p style='color:black; font-size: 3em; text-shadow: 0 0 20px #fff, 0 0 30px #fff, 0 0 50px #fff, 0 0 60px #fff, 0 0 70px #fff'>Game over!</p>`;
+  }
     reiniciarJuego()
   
 };
@@ -131,6 +140,7 @@ const reiniciarJuego = () => {
   containerBotones.innerHTML = `<button type="button" id="reiniciar">Nueva partida 🎇</button>`;
   const botonReiniciar = document.getElementById("reiniciar");
   botonReiniciar.addEventListener("click", reloadpagina);
+  
 };
 
 const handleBotonDameCarta = () => {
